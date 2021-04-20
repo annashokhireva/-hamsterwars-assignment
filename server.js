@@ -5,7 +5,7 @@ const path = require('path');
 const hamsters = require('./routes/hamsters.js');
 
 const PORT = 1204;
-const frontendFolder = path.join(__dirname, 'frontend');
+const frontendFolder = path.join(__dirname, 'public');
 
 //Middleware
 app.use(cors());
