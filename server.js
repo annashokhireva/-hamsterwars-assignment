@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const path = require('path');
 const hamsters = require('./routes/hamsters.js');
+const matches = require('./routes/matches.js');
 
 const PORT = 1204;
 const frontendFolder = path.join(__dirname, 'public');
@@ -21,6 +22,7 @@ app.use(express.static(frontendFolder));
 //Routes
 
 app.use('/hamsters', hamsters);
+app.use('/matches', matches);
 
 // Start server
 

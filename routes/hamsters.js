@@ -59,7 +59,7 @@ router.get('/:id', async (req, res) => {
 });
 
 
-// POST /hamsters ( måste alla egenskaper vara med i if-satsen?)
+// POST /hamsters (SKA ALLA EGENSKAPER VARA MED???)
 router.post('/', async (req, res) => {
 	const object = req.body;
 	
@@ -67,8 +67,9 @@ router.post('/', async (req, res) => {
 		res.sendStatus(400);
 		return;
 	}
-	
+
 	const docRef = await db.collection('hamsters').add(object);
+
 	res.status(200).send(`Hamster with id "${docRef.id}" has been added.`);
 });
 
@@ -76,49 +77,56 @@ router.post('/', async (req, res) => {
 function objectIdentifier(testItem) {
 	if(!testItem) return false;
 
-	else if(!testItem.name || !testItem.age || !testItem.imgName) return false;
+	else if(!testItem.name || !testItem.age || !testItem.favFood || !testItem.loves || !testItem.imgName) return false;
 	
 	return true;
 };
 
 
-// PUT /hamsters/:id (400?)
+// PUT /hamsters/:id 
 router.put('/:id', async (req, res) => {
 	const object = req.body;
 	const id = req.params.id;
+	const docRef = db.collection('hamsters').doc(id);
+	const machingId = await docRef.get();
 
-	if(!object) {
+	if(!machingId.exists) {
+		res.status(404).send(`Whops! Hamster not found.`);
+		return;
+	}
+
+	else if(!object) {
 		res.sendStatus(400);
 		return;
 	}
 
-	else if(!id) {
-		res.status(404).send(`Whops! Hamster with id "${id}" not found.`);
-		return;
-	}
-
-	const docRef = db.collection('hamsters').doc(id);
 	await docRef.set(object, { merge: true });
 	res.status(200).send(`Information has been edited`);
 
 });
 
 
-// DELETE /hamsters/:id  (add code 400)
+// DELETE /hamsters/:id 
 router.delete('/:id', async (req, res) => {
 	const id = req.params.id;
 	const docRef = db.collection('hamsters').doc(id);
-	const matchId = await docRef.get();
+	const machingId = await docRef.get();
 
-	if(!matchId.exists) {
-		res.status(404).send(`Whops! Hamster with id "${id}" not found.`);
+	if(!machingId.exists) {
+		res.status(404).send(`Whops! Hamster not found.`);
 		return;
-	}	
+	}
+	
+	if(machingId.exists) {
+		await docRef.delete();
+		res.status(200).send(`Hamster with id "${id}" has been deleted.`); 
+	}
 
-	await docRef.delete();
-	res.status(200).send(`Hamster with id "${id}" has been deleted.`); 
-
-})
+	else {
+		res.sendStatus(400);
+		return;
+	}
+});
 
 
 
