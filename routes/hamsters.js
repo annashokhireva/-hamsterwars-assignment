@@ -16,7 +16,6 @@ router.get('/', async (req, res) => {
 		return;
 	}
 
-	// let items = [];
 	snapshot.forEach(doc => {
 		const data = doc.data();
 		data.id = doc.id;
@@ -47,11 +46,8 @@ router.get('/random', async (req, res) => {
 		randomData = items[Math.floor(Math.random() * items.length)];
 	});
 
-	
-
 	res.send(randomData);
-	console.log(items);
-	console.log(randomData);
+
 });
 
 

@@ -64,7 +64,7 @@ function objectIdentifier(testItem) {
 };
 
 
-// DELETE /hamsters/:id 
+// DELETE /matches/:id 
 router.delete('/:id', async (req, res) => {
 	const id = req.params.id;
 	const docRef = db.collection('matches').doc(id);
@@ -88,14 +88,14 @@ router.delete('/:id', async (req, res) => {
 
 
 // GET /matchWinners/:id
-router.get('/:id', async (req, res) => {
+router.get('/matchWinners/:id', async (req, res) => {
 	
 });
 
 
 // GET /winners
-router.get('/', async (req, res) => {
-	
+router.get('/winners', async (req, res) => {
+	console.log(req.params);
 });
 
 
