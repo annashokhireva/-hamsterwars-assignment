@@ -29,19 +29,30 @@ router.get('/', async (req, res) => {
 
 // GET /hamsters/random
 
-// router.get('/random', async (req, res) => {
-// 	const randomRef = db.collection('hamsters');
-// 	const random = await randomRef.get();
+router.get('/random', async (req, res) => {
+	const randomRef = db.collection('hamsters');
+	const random = await randomRef.get();
 	
-// 	items.forEach(doc => {
-// 		const data = doc.data();
-// 		data.id = doc.id;
-// 		randomData = Math.floor(Math.random() * data.length);
-// 		items.push(randomData); 
-// 	});
+	if (random.empty) {
+		res.send([]);
+		return;
+	}
 
-// 	res.send(items);
-// });
+	let randomData;
+
+	random.forEach(doc => {
+		const data = doc.data();
+		data.id = doc.id;
+		items.push(data);
+		randomData = items[Math.floor(Math.random() * items.length)];
+	});
+
+	
+
+	res.send(randomData);
+	console.log(items);
+	console.log(randomData);
+});
 
 
 // GET /hamsters/:id
