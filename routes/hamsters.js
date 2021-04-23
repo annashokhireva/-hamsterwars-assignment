@@ -118,6 +118,7 @@ router.put('/:id', async (req, res) => {
 // DELETE /hamsters/:id 
 router.delete('/:id', async (req, res) => {
 	const id = req.params.id;
+	const object = req.body;
 	const docRef = db.collection('hamsters').doc(id);
 	const machingId = await docRef.get();
 
@@ -127,16 +128,24 @@ router.delete('/:id', async (req, res) => {
 		return;
 	}
 	
-	if(machingId.exists) {
-		await docRef.delete();
-		// res.status(200).send(`Hamster with id "${id}" has been deleted.`); 
-		res.sendStatus(200);
-	}
+	// if(machingId.exists) {
+	// 	await docRef.delete();
+	// 	// res.status(200).send(`Hamster with id "${id}" has been deleted.`); 
+	// 	res.sendStatus(200);
+	// }
 
-	else {
+	// else {
+	// 	res.sendStatus(400);
+	// 	return;
+	// }
+
+	if(!id || !object) {
 		res.sendStatus(400);
 		return;
 	}
+
+	awiat docRef.delete();
+	res.sendStatus(200);
 });
 
 
