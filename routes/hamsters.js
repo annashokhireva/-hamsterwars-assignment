@@ -66,7 +66,7 @@ router.get('/:id', async (req, res) => {
 });
 
 
-// POST /hamsters (ALLA EGENSKAPER SKA VARA MED!!! age ska vara heltal)
+// POST /hamsters (CHECK IF HAMSTER EXISTS)
 router.post('/', async (req, res) => {
 	const object = req.body;
 	
@@ -78,18 +78,27 @@ router.post('/', async (req, res) => {
 	const docRef = await db.collection('hamsters').add(object);
 
 	// res.status(200).send(`Hamster with id "${docRef.id}" has been added.`);
+	
 	res.send(docRef.id);
 });
 
 
 function objectIdentifier(testItem) {
-	if(!testItem) return false;
-
-if(testItem.name || testItem.age || !testItem.favFood || !testItem.loves || !testItem.imgName ) return true;
-	// ??? ||  || testItem.wins >= 0 || testItem.defeats >= 0 || testItem.games >=0
 	
-	testItem.age.isInteger() //egen if
-	return true;
+	if(testItem.name || testItem.age || !testItem.favFood || !testItem.loves || !testItem.imgName ) {
+
+		if(testItem.age <= 0 || !Number.isInteger(testItem.age)){
+			return false;
+			// humster must be at least 1 year old in order to partisipate
+		}
+
+		return true;
+	} 
+
+	if(testItem.wins >= 0 || testItem.defeats >= 0 || testItem.games >=0) return true;
+
+	else if(!testItem) return false;
+	
 };
 
 
@@ -97,15 +106,14 @@ if(testItem.name || testItem.age || !testItem.favFood || !testItem.loves || !tes
 router.put('/:id', async (req, res) => {
 	const object = req.body;
 	const id = req.params.id;
-	const docRef = db.collection('hamsters').doc(id);
-	const machingId = await docRef.get();
-
-	if(!machingId.exists) {
+	const docRef = await db.collection('hamsters').doc(id).get();
+	
+	if(!docRef.exists) {
 		res.status(404).send(`Whops! Hamster not found.`);
 		return;
 	}
 
-	else if(!object) {
+	if(!object) {
 		res.sendStatus(400);
 		return;
 	}

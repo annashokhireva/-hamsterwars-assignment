@@ -87,22 +87,4 @@ router.delete('/:id', async (req, res) => {
 	}
 });
 
-
-// GET /matchWinners/:id (SKA NY OBJEKT SKAPAS?)
-router.get('/matchWinners/:id', async (req, res) => {
-	
-});
-
-
-// GET /winners
-router.get('/winners', async (req, res) => {
-	console.log(req.params);
-});
-
-
-// GET /losers
-router.get('/', async (req, res) => {
-	
-});
-
 module.exports = router;

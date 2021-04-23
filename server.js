@@ -21,7 +21,7 @@ app.use( (req, res, next) => {
 app.use(express.static(frontendFolder));
 app.use(express.static(imgFolder));
 
-//Routes
+//Routes (ADD TRY CATCH)
 
 app.use('/hamsters', hamsters);
 app.use('/matches', matches);
