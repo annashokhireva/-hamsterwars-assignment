@@ -139,12 +139,12 @@ router.delete('/:id', async (req, res) => {
 	// 	return;
 	// }
 
-	if(!id || !object) {
+	else if(!id || !object) {
 		res.sendStatus(400);
 		return;
 	}
 
-	awiat docRef.delete();
+	await docRef.delete();
 	res.sendStatus(200);
 });
 
