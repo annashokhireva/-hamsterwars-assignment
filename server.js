@@ -23,6 +23,12 @@ app.use(express.static(imgFolder));
 
 //Routes (ADD TRY CATCH)
 
+app.get('/', (req, res) => {
+	res.send('Welcome to Hmasterwars')
+})
+
+//REST API 
+
 app.use('/hamsters', hamsters);
 app.use('/matches', matches);
 
