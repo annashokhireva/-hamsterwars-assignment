@@ -66,7 +66,7 @@ router.get('/:id', async (req, res) => {
 });
 
 
-// POST /hamsters (SKA ALLA EGENSKAPER VARA MED???)
+// POST /hamsters (ALLA EGENSKAPER SKA VARA MED!!!)
 router.post('/', async (req, res) => {
 	const object = req.body;
 	
@@ -77,7 +77,8 @@ router.post('/', async (req, res) => {
 
 	const docRef = await db.collection('hamsters').add(object);
 
-	res.status(200).send(`Hamster with id "${docRef.id}" has been added.`);
+	// res.status(200).send(`Hamster with id "${docRef.id}" has been added.`);
+	res.status(200).send(docRef);
 });
 
 
@@ -90,7 +91,7 @@ function objectIdentifier(testItem) {
 };
 
 
-// PUT /hamsters/:id 
+// PUT /hamsters/:id (Ett objekt med ändringar: { wins: 10, games: 12 })
 router.put('/:id', async (req, res) => {
 	const object = req.body;
 	const id = req.params.id;
@@ -108,7 +109,8 @@ router.put('/:id', async (req, res) => {
 	}
 
 	await docRef.set(object, { merge: true });
-	res.status(200).send(`Information has been edited`);
+	// res.status(200).send(`Information has been edited`);
+	res.sendStatus(200);
 
 });
 
@@ -120,13 +122,15 @@ router.delete('/:id', async (req, res) => {
 	const machingId = await docRef.get();
 
 	if(!machingId.exists) {
-		res.status(404).send(`Whops! Hamster not found.`);
+		// res.status(404).send(`Whops! Hamster not found.`);
+		res.sendStatus(404);
 		return;
 	}
 	
 	if(machingId.exists) {
 		await docRef.delete();
-		res.status(200).send(`Hamster with id "${id}" has been deleted.`); 
+		// res.status(200).send(`Hamster with id "${id}" has been deleted.`); 
+		res.sendStatus(200);
 	}
 
 	else {
