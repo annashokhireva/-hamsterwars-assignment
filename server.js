@@ -5,7 +5,7 @@ const path = require('path');
 const hamsters = require('./routes/hamsters.js');
 const matches = require('./routes/matches.js');
 
-const PORT = 1204;
+const PORT = process.env.PORT || 1204;
 const frontendFolder = path.join(__dirname, 'public');
 const imgFolder = path.join(__dirname, 'img');
 
