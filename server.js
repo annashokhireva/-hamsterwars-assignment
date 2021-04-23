@@ -4,6 +4,10 @@ const cors = require('cors');
 const path = require('path');
 const hamsters = require('./routes/hamsters.js');
 const matches = require('./routes/matches.js');
+const matchWinners = require('./routes/matchWinners.js');
+const winners = require('./routes/winners.js');
+const losers = require('./routes/losers.js');
+
 
 const PORT = process.env.PORT || 1204;
 const frontendFolder = path.join(__dirname, 'public');
@@ -24,13 +28,26 @@ app.use(express.static(imgFolder));
 //Routes (ADD TRY CATCH)
 
 // app.get('/', (req, res) => {
-// 	res.send('Welcome to Hmasterwars')
+// 	res.send('Welcome to Hmaster Wars');
 // })
+
+app.get('/simulate-error', (req, res) => {
+	try {
+
+	}
+	catch(error) {
+		console.log(error.message);
+		res.satatus(500).send(error.message);
+	}
+});
 
 //REST API 
 
 app.use('/hamsters', hamsters);
 app.use('/matches', matches);
+app.use('/matchWinners', matches);
+app.use('/winners', matches);
+app.use('/losers', matches);
 
 // Start server
 

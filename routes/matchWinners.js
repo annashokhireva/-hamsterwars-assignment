@@ -4,8 +4,9 @@ const router = express.Router();
 const db = require('../database.js')();
 
 
-// GET /matchWinners/:id (SKA NY OBJEKT SKAPAS?)
+// GET /matchWinners/:id 
 router.get('/matchWinners/:id', async (req, res) => {
+	
 	
 });
 

@@ -62,7 +62,7 @@ router.get('/:id', async (req, res) => {
 	};
 
 	const data = docRef.data();
-	res.send(data);
+	res.status(200).send(data);
 });
 
 
@@ -78,7 +78,6 @@ router.post('/', async (req, res) => {
 	const docRef = await db.collection('hamsters').add(object);
 
 	// res.status(200).send(`Hamster with id "${docRef.id}" has been added.`);
-	
 	res.send(docRef.id);
 });
 
@@ -104,14 +103,17 @@ function objectIdentifier(testItem) {
 
 // PUT /hamsters/:id (Ett objekt med ändringar: { wins: 10, games: 12 })
 router.put('/:id', async (req, res) => {
-	const object = req.body;
+
 	const id = req.params.id;
-	const docRef = await db.collection('hamsters').doc(id).get();
+	const docRef = db.collection('hamsters').doc(id)
+	const hamsterRef = await docRef.get();
 	
-	if(!docRef.exists) {
+	if(!hamsterRef.exists) {
 		res.status(404).send(`Whops! Hamster not found.`);
 		return;
 	}
+
+	const object = req.body;
 
 	if(!object) {
 		res.sendStatus(400);
@@ -134,10 +136,10 @@ router.delete('/:id', async (req, res) => {
 		return;
 	}
 
-	const docRef = db.collection('hamsters').doc(id);
-	const machingId = await docRef.get();
+	const docRef = await db.collection('hamsters').doc(id).get();
 
-	if(!machingId.exists) {
+
+	if(!docRef.exists) {
 		// res.status(404).send(`Whops! Hamster not found.`);
 		res.sendStatus(404);
 		return;
@@ -154,9 +156,7 @@ router.delete('/:id', async (req, res) => {
 	// 	return;
 	// }
 
-	
-
-	await docRef.delete();
+	await db.collection('hamsters').doc(id).delete()
 	res.sendStatus(200);
 });
 
