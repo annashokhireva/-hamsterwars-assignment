@@ -66,7 +66,7 @@ router.get('/:id', async (req, res) => {
 });
 
 
-// POST /hamsters (ALLA EGENSKAPER SKA VARA MED!!!)
+// POST /hamsters (ALLA EGENSKAPER SKA VARA MED!!! age ska vara heltal)
 router.post('/', async (req, res) => {
 	const object = req.body;
 	
@@ -78,15 +78,17 @@ router.post('/', async (req, res) => {
 	const docRef = await db.collection('hamsters').add(object);
 
 	// res.status(200).send(`Hamster with id "${docRef.id}" has been added.`);
-	res.status(200).send(docRef);
+	res.send(docRef.id);
 });
 
 
 function objectIdentifier(testItem) {
 	if(!testItem) return false;
 
-	else if(!testItem.name || !testItem.age || !testItem.favFood || !testItem.loves || !testItem.imgName) return false;
+if(testItem.name || testItem.age || !testItem.favFood || !testItem.loves || !testItem.imgName ) return true;
+	// ??? ||  || testItem.wins >= 0 || testItem.defeats >= 0 || testItem.games >=0
 	
+	testItem.age.isInteger() //egen if
 	return true;
 };
 
@@ -118,7 +120,12 @@ router.put('/:id', async (req, res) => {
 // DELETE /hamsters/:id 
 router.delete('/:id', async (req, res) => {
 	const id = req.params.id;
-	const object = req.body;
+
+	if(!id) {
+		res.sendStatus(400);
+		return;
+	}
+
 	const docRef = db.collection('hamsters').doc(id);
 	const machingId = await docRef.get();
 
@@ -139,10 +146,7 @@ router.delete('/:id', async (req, res) => {
 	// 	return;
 	// }
 
-	else if(!id || !object) {
-		res.sendStatus(400);
-		return;
-	}
+	
 
 	await docRef.delete();
 	res.sendStatus(200);

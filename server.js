@@ -7,6 +7,7 @@ const matches = require('./routes/matches.js');
 
 const PORT = 1204;
 const frontendFolder = path.join(__dirname, 'public');
+const imgFolder = path.join(__dirname, 'img');
 
 //Middleware
 app.use(cors());
@@ -18,6 +19,7 @@ app.use( (req, res, next) => {
 });
 
 app.use(express.static(frontendFolder));
+app.use(express.static(imgFolder));
 
 //Routes
 

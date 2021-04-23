@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
 	
 	const docRef = await db.collection('matches').add(object);
 	// res.status(200).send(`New match with id "${docRef.id}" has been added.`);
-	res.status(200).send(docRef);
+	res.send(docRef.id);
 });
 
 
