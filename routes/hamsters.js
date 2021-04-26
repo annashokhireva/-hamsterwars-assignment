@@ -138,8 +138,6 @@ router.post('/', async (req, res) => {
 
 		const newObj = { id: docRef.id };
 
-		// newObj.id = docRef.id;
-
 		res.send(newObj);
 	}
 
@@ -201,14 +199,13 @@ function objectEvaluator(testItem) {
 //   };
 
 
-// PUT /hamsters/:id (Ett objekt med ändringar: { wins: 10, games: 12 })
+// PUT /hamsters/:id 
 router.put('/:id', async (req, res) => {
 	const id = req.params.id;
 	const object = req.body;
 	
 
 	if(!object || !id) {
-		console.log(1, object, object.length);
 		res.sendStatus(400);
 		return;
 	}
@@ -218,7 +215,6 @@ router.put('/:id', async (req, res) => {
 
 	try {
 		hamsterRef = await docRef.get();
-		console.log(2, hamsterRef);
 	}
 
 	catch(error) {
@@ -232,10 +228,14 @@ router.put('/:id', async (req, res) => {
 		return;
 	}
 
-	let test
 	try {
-		test = await docRef.set(object, { merge: true });
-		console.log(3, test);
+		await docRef.set(object, { merge: true });
+
+		if(Object.keys(object).length === 0) {
+			res.sendStatus(400);
+			return;
+		}
+
 		res.sendStatus(200);
 	}
 
