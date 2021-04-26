@@ -8,8 +8,16 @@ let items = [];
 
 // GET /matches
 router.get('/', async (req, res) => {
-	const matchesRef = db.collection('matches');
-	const snapshot = await matchesRef.get();
+	let snapshot;
+
+	try {
+		snapshot = await db.collection('matches').get();
+	}
+
+	catch(error) {
+		console.log(error.message);
+		res.status(500).send(error.message);
+	}
 
 	if (snapshot.empty) {
 		res.send([]);
@@ -29,7 +37,16 @@ router.get('/', async (req, res) => {
 // GET /matches/:id
 router.get('/:id', async (req, res) => {
 	const id = req.params.id;
-	const docRef = await db.collection('matches').doc(id).get();
+	let docRef;
+
+	try {
+		docRef = await db.collection('matches').doc(id).get();
+	}
+
+	catch(error) {
+		console.log(error.message);
+		res.status(500).send(error.message);
+	}
 
 	if (!docRef.exists) {
 		res.status(404).send('Match not found.');
@@ -45,18 +62,29 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
 	const object = req.body;
 	
-	if(!objectIdentifier(object)) {
+	if(!objectEvaluator(object)) {
 		res.sendStatus(400);
 		return;
 	}
 	
+	// let docRef;
+
+	// try {
+	// 	docRef = await db.collection('matches').doc(id).add(object);
+	// }
+
+	// catch(error) {
+	// 	console.log(error.message);
+	// 	res.status(500).send(error.message);
+	// }
+
 	const docRef = await db.collection('matches').add(object);
 	// res.status(200).send(`New match with id "${docRef.id}" has been added.`);
 	res.send(docRef.id);
 });
 
 
-function objectIdentifier(testItem) {
+function objectEvaluator(testItem) {
 	if(!testItem) return false;
 
 	else if(!testItem.winnerId || !testItem.loserId) return false;

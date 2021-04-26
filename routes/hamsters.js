@@ -78,6 +78,7 @@ router.get('/:id', async (req, res) => {
 	catch(error) {
 		console.log(error.message);
 		res.status(500).send(error.message);
+		return;
 	}
 
 	if (!docRef.exists) {
@@ -85,8 +86,18 @@ router.get('/:id', async (req, res) => {
 		return;
 	};
 
-	const data = docRef.data();
-	res.status(200).send(data);
+	try {
+		const data = docRef.data();
+		res.status(200).send(data);
+	}
+
+	catch(error) {
+		console.log(error.message);
+		res.status(500).send(error.message);
+		return;
+	}
+
+	
 });
 
 
@@ -124,19 +135,18 @@ router.post('/', async (req, res) => {
 
 	try {
 		docRef = await db.collection('hamsters').add(object);
+
+		let newObj = {};
+
+		newObj.id = docRef.id;
+
+		res.status(200).send(newObj);
 	}
 
 	catch(error) {
 		console.log(error.message);
 		res.status(500).send(error.message);
 	}
-
-	if(!docRef.id){
-		res.sendStatus(400);
-		return;
-	}
-
-	res.status(200).send(docRef.id);
 
 });
 
@@ -145,7 +155,7 @@ function objectEvaluator(testItem) {
 
 	if( testItem && ['name', 'age', 'favFood', 'loves', 'imgName', 'wins', 'defeats', 'games'].every(t => testItem.hasOwnProperty(t)) ) {
 
-		if (testItem.age <= 0 || !Number.isInteger(testItem.age)) return false;
+		if (testItem.age < 0 || !Number.isInteger(testItem.age)) return false;
 
 		if (!Number.isInteger(testItem.wins)) return false;
 
@@ -155,9 +165,6 @@ function objectEvaluator(testItem) {
 
 		return true;
 	}
-
-	// if( testItem.id )
-	// 	return true
 
 	return false;
 
@@ -198,17 +205,26 @@ function objectEvaluator(testItem) {
 router.put('/:id', async (req, res) => {
 	const id = req.params.id;
 	const object = req.body;
+	
+
+	if(!object || !id) {
+		console.log(1, object, object.length);
+		res.sendStatus(400);
+		return;
+	}
+
 	const docRef = db.collection('hamsters').doc(id);
 	let hamsterRef;
 
 	try {
 		hamsterRef = await docRef.get();
-
+		console.log(2, hamsterRef);
 	}
 
 	catch(error) {
 		console.log(error.message);
 		res.status(500).send(error.message);
+		return;
 	}
 
 	if(!hamsterRef.exists) {
@@ -216,31 +232,17 @@ router.put('/:id', async (req, res) => {
 		return;
 	}
 
-
-	if(!object || !object.length ) {
-		res.sendStatus(400);
-		return;
+	let test
+	try {
+		test = await docRef.set(object, { merge: true });
+		console.log(3, test);
+		res.sendStatus(200);
 	}
 
-	//Hur ska man göra här?
-
-	// let newRef;
-
-	// try {
-	// 	newRef = await db.collection('hamsters').doc(id).delete();
-
-	// }
-
-	// catch(error) {
-	// 	console.log(error.message);
-	// 	res.status(500).send(error.message);
-	// }
-
-	// newRef;
-
-	await docRef.set(object, { merge: true });
-	// res.status(200).send(`Information has been edited`);
-	res.sendStatus(200);
+	catch(error) {
+		console.log(error.message);
+		res.status(500).send(error.message);
+	}
 
 });
 
@@ -258,12 +260,12 @@ router.delete('/:id', async (req, res) => {
 
 	try {
 		docRef = await db.collection('hamsters').doc(id).get();
-
 	}
 
 	catch(error) {
 		console.log(error.message);
 		res.status(500).send(error.message);
+		return;
 	}
 
 	if(!docRef.exists) {
@@ -271,36 +273,17 @@ router.delete('/:id', async (req, res) => {
 		res.sendStatus(404);
 		return;
 	}
-	
-	// if(machingId.exists) {
-	// 	await docRef.delete();
-	// 	// res.status(200).send(`Hamster with id "${id}" has been deleted.`); 
-	// 	res.sendStatus(200);
-	// }
 
-	// else {
-	// 	res.sendStatus(400);
-	// 	return;
-	// }
+	try {
+		await db.collection('hamsters').doc(id).delete()
+		res.sendStatus(200);
+	}
 
-	//Hur ska man göra här?
+	catch(error) {
+		console.log(error.message);
+		res.status(500).send(error.message);
+	}
 
-	// let delRef;
-
-	// try {
-	// 	delRef = await db.collection('hamsters').doc(id).delete();
-
-	// }
-
-	// catch(error) {
-	// 	console.log(error.message);
-	// 	res.status(500).send(error.message);
-	// }
-
-	// delRef;
-
-	await db.collection('hamsters').doc(id).delete()
-	res.sendStatus(200);
 });
 
 
