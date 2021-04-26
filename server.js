@@ -45,9 +45,9 @@ app.get('/simulate-error', (req, res) => {
 
 app.use('/hamsters', hamsters);
 app.use('/matches', matches);
-app.use('/matchWinners', matches);
-app.use('/winners', matches);
-app.use('/losers', matches);
+app.use('/matchWinners', matchWinners);
+app.use('/winners', winners);
+app.use('/losers', losers);
 
 // Start server
 
