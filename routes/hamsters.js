@@ -82,7 +82,7 @@ router.get('/:id', async (req, res) => {
 	}
 
 	if (!docRef.exists) {
-		res.status(404).send('Whops! Hamster not found.');
+		res.status(404).send("Whops! Hamster not found.");
 		return;
 	};
 
@@ -224,7 +224,7 @@ router.put('/:id', async (req, res) => {
 	}
 
 	if(!hamsterRef.exists) {
-		res.status(404).send(`Whops! Hamster not found.`);
+		res.status(404).send("Whops! Hamster not found.");
 		return;
 	}
 
