@@ -2,6 +2,39 @@
 	box-sizing: border-box;
 }
 
-h1 {
-	color: rgb(34, 65, 133);
+body {
+	background-color: black;
+	color: #ffe81f;
 }
+
+header {
+	display: flex;
+	justify-content: center;
+	margin: 5% auto;
+}
+
+button {
+	font-family: 'Roboto', sans-serif;
+	font-size: 32px;
+	color: #ffe81f;
+	border: 1px solid #ffe81f;
+	border-radius: 10px;
+	background: none;
+	margin-bottom: 5%;
+	cursor: pointer;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+
+/* .hamster-img {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+} */

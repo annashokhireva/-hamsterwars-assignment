@@ -26,21 +26,11 @@ app.use(express.static(frontendFolder));
 app.use(express.static(imgFolder));
 
 
-//Routes (ADD TRY CATCH)
+//Routes
 
 // app.get('/', (req, res) => {
 // 	res.send('Welcome to Hmaster Wars');
 // })
-
-app.get('/simulate-error', (req, res) => {
-	try {
-
-	}
-	catch(error) {
-		console.log(error.message);
-		res.satatus(500).send(error.message);
-	}
-});
 
 //REST API 
 
