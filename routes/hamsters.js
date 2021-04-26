@@ -112,10 +112,10 @@ router.post('/', async (req, res) => {
 	// 	return;
 	// }
 
-	if(Object.keys(object).length === 0 ) {
-		res.sendStatus(400);
-		return;
-	}
+	// if(Object.keys(object).length === 0 ) {
+	// 	res.sendStatus(400);
+	// 	return;
+	// }
 
 	// const snapshot = await db.collection('hamsters').get();
 	// let hamsterObj = {}
@@ -126,7 +126,7 @@ router.post('/', async (req, res) => {
 	// 	element = hamsterObj;
 	// }
 
-	if(!objectEvaluator(object)) {
+	if(!objectEvaluator(object) || Object.keys(object).length === 0) {
 		res.sendStatus(400);
 		return;
 	}
@@ -136,11 +136,11 @@ router.post('/', async (req, res) => {
 	try {
 		docRef = await db.collection('hamsters').add(object);
 
-		let newObj = {};
+		const newObj = { id: docRef.id };
 
-		newObj.id = docRef.id;
+		// newObj.id = docRef.id;
 
-		res.status(200).send(newObj);
+		res.send(newObj);
 	}
 
 	catch(error) {
