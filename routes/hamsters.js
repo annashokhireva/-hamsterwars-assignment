@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
 	const snapshot = await hamstersRef.get();
 
 	if (snapshot.empty) {
-		res.send([]);
+		res.sendStatus(400);
 		return;
 	}
 

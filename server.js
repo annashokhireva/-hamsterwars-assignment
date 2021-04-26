@@ -14,16 +14,17 @@ const frontendFolder = path.join(__dirname, 'public');
 const imgFolder = path.join(__dirname, 'img');
 
 //Middleware
-app.use(cors());
-app.use(express.json());
-
 app.use( (req, res, next) => {
 	console.log(`${req.method} ${req.url}`, req.params);
 	next();
 });
 
+app.use(cors());
+app.use(express.json());
+
 app.use(express.static(frontendFolder));
 app.use(express.static(imgFolder));
+
 
 //Routes (ADD TRY CATCH)
 
