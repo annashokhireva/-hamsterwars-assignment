@@ -96,7 +96,6 @@ router.get('/:id', async (req, res) => {
 		res.status(500).send(error.message);
 		return;
 	}
-
 	
 });
 
@@ -104,27 +103,6 @@ router.get('/:id', async (req, res) => {
 // POST /hamsters (CHECK IF HAMSTER EXISTS)
 router.post('/', async (req, res) => {
 	const object = req.body;
-
-	// const empty = {};
-
-	// if(Object.keys(empty).length === 0 && empty.constructor === Object) {
-	// 	res.sendStatus(400);
-	// 	return;
-	// }
-
-	// if(Object.keys(object).length === 0 ) {
-	// 	res.sendStatus(400);
-	// 	return;
-	// }
-
-	// const snapshot = await db.collection('hamsters').get();
-	// let hamsterObj = {}
-
-	// for (let i = 0; i < snapshot.length; index++) {
-	// 	const element = snapshot[i];
-		
-	// 	element = hamsterObj;
-	// }
 
 	if(!objectEvaluator(object) || Object.keys(object).length === 0) {
 		res.sendStatus(400);
@@ -166,37 +144,7 @@ function objectEvaluator(testItem) {
 
 	return false;
 
-
-	
-	// if( testItem.name && testItem.age && testItem.favFood && testItem.loves && testItem.imgName && testItem.wins >= 0 && testItem.defeats >= 0 && testItem.games >=0 ) {
-
-	// 	if(testItem.age <= 0 || !Number.isInteger(testItem.age)){
-	// 		return false;
-	// 		// humster must be at least 1 year old in order to partisipate
-	// 	}
-
-	// 	return true;
-	// } 
-
-
-	// return false;
-
 };
-
-// function getChanges(oldArray, newArray) {
-// 	var changes, i, item, j, len;
-// 	if (JSON.stringify(oldArray) === JSON.stringify(newArray)) {
-// 	  return false;
-// 	}
-// 	changes = [];
-// 	for (i = j = 0, len = newArray.length; j < len; i = ++j) {
-// 	  item = newArray[i];
-// 	  if (JSON.stringify(item) !== JSON.stringify(oldArray[i])) {
-// 		changes.push(item);
-// 	  }
-// 	}
-// 	return changes;
-//   };
 
 
 // PUT /hamsters/:id 
@@ -269,7 +217,6 @@ router.delete('/:id', async (req, res) => {
 	}
 
 	if(!docRef.exists) {
-		// res.status(404).send(`Whops! Hamster not found.`);
 		res.sendStatus(404);
 		return;
 	}
@@ -283,7 +230,6 @@ router.delete('/:id', async (req, res) => {
 		console.log(error.message);
 		res.status(500).send(error.message);
 	}
-
 });
 
 

@@ -24,6 +24,7 @@ button {
 	cursor: pointer;
 	text-transform: uppercase;
 	padding: 10px 20px;
+	outline: none;
 }
 
 main {

@@ -46,15 +46,25 @@ router.get('/:id', async (req, res) => {
 	catch(error) {
 		console.log(error.message);
 		res.status(500).send(error.message);
+		return;
 	}
 
 	if (!docRef.exists) {
-		res.status(404).send('Match not found.');
+		res.status(404).send("Match not found.");
 		return;
 	};
 
-	const data = docRef.data();
-	res.send(data);
+	try {
+		const data = docRef.data();
+		res.send(data);
+	}
+
+	catch(error) {
+		console.log(error.message);
+		res.status(500).send(error.message);
+		return;
+	}
+
 });
 
 
@@ -62,56 +72,73 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
 	const object = req.body;
 	
-	if(!objectEvaluator(object)) {
+	if(!objectEvaluator(object) || Object.keys(object).length === 0) {
 		res.sendStatus(400);
 		return;
 	}
 	
-	// let docRef;
+	let docRef;
 
-	// try {
-	// 	docRef = await db.collection('matches').doc(id).add(object);
-	// }
+	try {
+		docRef = await db.collection('matches').add(object);
 
-	// catch(error) {
-	// 	console.log(error.message);
-	// 	res.status(500).send(error.message);
-	// }
+		const newObj = { id: docRef.id };
 
-	const docRef = await db.collection('matches').add(object);
-	// res.status(200).send(`New match with id "${docRef.id}" has been added.`);
-	res.send(docRef.id);
+		res.send(newObj);
+	}
+
+	catch(error) {
+		console.log(error.message);
+		res.status(500).send(error.message);
+	}
+
 });
 
 
 function objectEvaluator(testItem) {
-	if(!testItem) return false;
+	if( !testItem )
+		return false;
+	else if( !testItem.winnerId || !testItem.loserId )
+		return false
 
-	else if(!testItem.winnerId || !testItem.loserId) return false;
-	
-	return true;
+	return true
 };
 
 
 // DELETE /matches/:id 
 router.delete('/:id', async (req, res) => {
 	const id = req.params.id;
-	const docRef = db.collection('matches').doc(id);
-	const machingId = await docRef.get();
 
-	if(!machingId.exists) {
-		res.status(404).send(`Whops! Match not found.`);
-		return;
-	}
-	
-	if(machingId.exists) {
-		await docRef.delete();
-		res.status(200).send(`Match with id "${id}" has been deleted.`); 
-	}
-
-	else {
+	if(!id) {
 		res.sendStatus(400);
 		return;
+	}
+
+	let docRef;
+
+	try {
+		docRef = await db.collection('matches').doc(id).get();
+	}
+
+	catch(error) {
+		console.log(error.message);
+		res.status(500).send(error.message);
+		return;
+	}
+
+	if(!docRef.exists) {
+		res.sendStatus(404);
+		return;
+	}
+
+	try {
+		await db.collection('matches').doc(id).delete()
+		res.sendStatus(200);
+	}
+
+	catch(error) {
+		console.log(error.message);
+		res.status(500).send(error.message);
 	}
 });
 
