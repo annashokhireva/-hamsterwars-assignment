@@ -6,7 +6,6 @@ const db = require('../database.js')();
 // GET /hamsters
 router.get('/', async (req, res) => {	
 	let snapshot;
-	let items = [];
 
 	try {
 		snapshot = await db.collection('hamsters').get();
@@ -21,6 +20,8 @@ router.get('/', async (req, res) => {
 		res.sendStatus(400);
 		return;
 	}
+
+	let items = [];
 
 	snapshot.forEach(doc => {
 		const data = doc.data();
