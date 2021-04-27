@@ -52,6 +52,7 @@ router.get('/random', async (req, res) => {
 		return;
 	}
 
+	let items = [];
 	let randomData;
 
 	randomRef.forEach(doc => {
