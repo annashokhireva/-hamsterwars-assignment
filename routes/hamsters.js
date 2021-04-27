@@ -3,11 +3,10 @@ const router = express.Router();
 
 const db = require('../database.js')();
 
-let items = [];
-
 // GET /hamsters
 router.get('/', async (req, res) => {	
 	let snapshot;
+	let items = [];
 
 	try {
 		snapshot = await db.collection('hamsters').get();
@@ -67,7 +66,8 @@ router.get('/random', async (req, res) => {
 
 
 // GET /hamsters/:id
-router.get('/:id', async (req, res) => {
+
+	router.get('/:id', async (req, res) => {
 	const id = req.params.id;
 	let docRef;
 	
