@@ -9,11 +9,17 @@ router.get('/', async (req, res) => {
 
 	try {
 		result = await db.collection('hamsters').orderBy('wins', 'desc').limit(5).get();
-		
+
 		const rows = [];
 
 		result.forEach(doc => {
+			// const data = doc.data();
+			// data.id = doc.id;
+			// rows.push(data);
+			//console.log(data.wins);
+
 			rows.push(doc.data());
+			
 		});
 
 		res.send(rows);

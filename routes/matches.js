@@ -99,8 +99,7 @@ function objectEvaluator(testItem) {
 	if( !testItem )
 		return false;
 	else if( !testItem.winnerId || !testItem.loserId )
-		return false
-
+		return false;
 	return true
 };
 

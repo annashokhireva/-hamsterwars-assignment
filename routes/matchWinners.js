@@ -8,6 +8,7 @@ const db = require('../database.js')();
 router.get('/:id', async (req, res) => {
 	let snapshot;
 	const id = req.params.id;
+	// let winnerRef;
 
 	try {
 		snapshot = await db.collection('matches').where('winnerId', '=', id).get();
@@ -28,17 +29,21 @@ router.get('/:id', async (req, res) => {
 	snapshot.forEach(doc => {
 		const data = doc.data();
 		data.id = doc.id;
-		rows.push(data);
-		console.log(data.winnerId, id);
 
-		// if(data.winnerId != id){
-		// 	res.sendStatus(404);
-		// 	return;
-		// }
+		rows.push(data);
+		
+		
 	});
-	
+
+	// winnerRef = await db.collection('hamsters').doc(id).get();
+	// const winner = winnerRef.data();
+
+	// console.log(winner);
+	console.log('row count', rows.length, id);
+
 	res.send(rows);
 	
 });
+
 
 module.exports = router;
