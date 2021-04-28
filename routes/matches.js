@@ -72,7 +72,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
 	const object = req.body;
 	
-	if(!objectEvaluator(object) || Object.keys(object).length === 0) {
+	if(!object.winnerId || !object.loserId || Object.keys(object).length === 0) {
 		res.sendStatus(400);
 		return;
 	}
@@ -93,16 +93,6 @@ router.post('/', async (req, res) => {
 	}
 
 });
-
-
-function objectEvaluator(testItem) {
-	if( !testItem )
-		return false;
-	else if( !testItem.winnerId || !testItem.loserId )
-		return false;
-	return true
-};
-
 
 // DELETE /matches/:id 
 router.delete('/:id', async (req, res) => {

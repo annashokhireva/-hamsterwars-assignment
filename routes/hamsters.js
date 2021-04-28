@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 
 	if (snapshot.empty) {
 		res.sendStatus(400);
-		return;
+		return; // necessary? 
 	}
 
 	let items = [];
