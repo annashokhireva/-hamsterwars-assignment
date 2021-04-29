@@ -8,10 +8,9 @@ const db = require('../database.js')();
 router.get('/:id', async (req, res) => {
 	let snapshot;
 	const id = req.params.id;
-	// let winnerRef;
 
 	try {
-		snapshot = await db.collection('matches').where('winnerId', '==', `${id}`).get();
+		snapshot = await db.collection('matches').where('winnerId', '==', id).get();
 	}
 
 	catch(error) {
@@ -36,10 +35,6 @@ router.get('/:id', async (req, res) => {
 		
 	});
 
-	// winnerRef = await db.collection('hamsters').doc(id).get();
-	// const winner = winnerRef.data();
-
-	// console.log(winner);
 	console.log('row count', rows.length, id);
 
 	res.send(rows);

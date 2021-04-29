@@ -3,9 +3,6 @@ const router = express.Router();
 
 const db = require('../database.js')();
 
-let items = [];
-
-
 // GET /matches
 router.get('/', async (req, res) => {
 	let snapshot;
@@ -23,6 +20,8 @@ router.get('/', async (req, res) => {
 		res.send([]);
 		return;
 	}
+
+	let items = [];
 
 	snapshot.forEach(doc => {
 		const data = doc.data();
