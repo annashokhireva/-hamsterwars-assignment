@@ -13,11 +13,7 @@ router.get('/', async (req, res) => {
 		const rows = [];
 
 		result.forEach(doc => {
-			// const data = doc.data();
-			// data.id = doc.id;
-			// rows.push(data);
-			//console.log(data.wins);
-
+			
 			rows.push(doc.data());
 			
 		});

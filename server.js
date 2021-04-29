@@ -28,10 +28,6 @@ app.use(express.static(imgFolder));
 
 //Routes
 
-// app.get('/', (req, res) => {
-// 	res.send('Welcome to Hmaster Wars');
-// })
-
 //REST API 
 
 app.use('/hamsters', hamsters);
