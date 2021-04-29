@@ -63,7 +63,6 @@ router.get('/:id', async (req, res) => {
 		res.status(500).send(error.message);
 		return;
 	}
-
 });
 
 
@@ -90,7 +89,6 @@ router.post('/', async (req, res) => {
 		console.log(error.message);
 		res.status(500).send(error.message);
 	}
-
 });
 
 // DELETE /matches/:id 

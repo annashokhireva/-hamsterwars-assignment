@@ -31,14 +31,9 @@ router.get('/:id', async (req, res) => {
 		data.id = doc.id;
 
 		rows.push(data);
-		
-		
 	});
 
-	console.log('row count', rows.length, id);
-
 	res.send(rows);
-	
 });
 
 

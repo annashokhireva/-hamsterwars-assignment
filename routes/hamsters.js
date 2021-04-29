@@ -63,7 +63,6 @@ router.get('/random', async (req, res) => {
 	});
 
 	res.send(randomData);
-
 });
 
 
@@ -125,7 +124,6 @@ router.post('/', async (req, res) => {
 		console.log(error.message);
 		res.status(500).send(error.message);
 	}
-
 });
 
 
@@ -145,7 +143,6 @@ function objectEvaluator(testItem) {
 	}
 
 	return false;
-
 };
 
 
@@ -153,7 +150,6 @@ function objectEvaluator(testItem) {
 router.put('/:id', async (req, res) => {
 	const id = req.params.id;
 	const object = req.body;
-	
 
 	if(!object || !id) {
 		res.sendStatus(400);
@@ -193,7 +189,6 @@ router.put('/:id', async (req, res) => {
 		console.log(error.message);
 		res.status(500).send(error.message);
 	}
-
 });
 
 
